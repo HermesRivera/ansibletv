@@ -1,0 +1,8 @@
+[web_server]
+hermes@ubuntutv1.eastus.cloudapp.azure.com
+
+[db_server]
+hermes@ubuntutv2.eastus.cloudapp.azure.com
+
+[file_server]
+hermes@ubuntutv3.eastus.cloudapp.azure.com
