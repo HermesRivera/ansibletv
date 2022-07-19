@@ -6,3 +6,6 @@ hermes@ubuntutv2.eastus.cloudapp.azure.com
 
 [file_server]
 hermes@ubuntutv3.eastus.cloudapp.azure.com
+
+[workstation]
+hermes@ubuntutv4.eastus.cloudapp.azure.com
