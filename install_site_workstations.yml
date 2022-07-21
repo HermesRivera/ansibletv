@@ -50,11 +50,12 @@
       state: latest
     when: ansible_distribution in ["Debian", "Ubuntu"]
 
-  - name: Stop apache2
+  - name: Started and Enable apache2
     tags: apache, apache2, ubuntu
     service:
       name: apache2
       state: started
+      enable: yes
     when: ansible_distribution == "Ubuntu"
     
   - name: install apache and php  package
