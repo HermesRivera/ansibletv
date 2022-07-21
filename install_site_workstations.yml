@@ -55,8 +55,24 @@
     service:
       name: apache2
       state: started
-      enable: yes
+      enabled: yes
     when: ansible_distribution == "Ubuntu"
+
+  - name: change line in hermes txt file
+    tags: apache, apache2, ubuntu
+    lineinfile:
+      path: /home/hermes/hermes.txt
+      regexp: '^todos'
+      line: hemos cambiado todas las propuesta enviar a este email hermes@momentbi.com
+    when: ansible_distribution == "Ubuntu"
+    register: hermes
+
+  - name: restart service if hermes txt has changed
+    tags: apache, apache2, ubuntu
+    service.
+      name: apache2
+      state: restarted
+    when: hernes.changed
     
   - name: install apache and php  package
     tags: apache, centos, httpd
