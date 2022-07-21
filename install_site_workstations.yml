@@ -54,7 +54,7 @@
     tags: apache, apache2, ubuntu
     service:
       name: apache2
-      state: stop
+      state: stopped
     when: ansible_distribution == "Ubuntu"
     
   - name: install apache and php  package
