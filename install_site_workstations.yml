@@ -49,6 +49,13 @@
         - libapache2-mod-php
       state: latest
     when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: Stop apache2
+    tags: apache, apache2, ubuntu
+    service:
+      name: apache2
+      state: stop
+    when: ansible_distribution == "Ubuntu"
     
   - name: install apache and php  package
     tags: apache, centos, httpd
