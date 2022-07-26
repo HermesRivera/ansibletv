@@ -1,0 +1,20 @@
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: installing zerotier
+    shell: curl -s https://install.zerotier.com | sudo bash
+    args:     
+      warn: no
+
+  - name: join zerotier
+    shell: zerotier-cli join d3ecf5726d9d0f45 
+    args:
+      warn: no

@@ -19,6 +19,14 @@
     when: ansible_distribution == "Ubuntu"
 
 
+- hosts: all
+  become: true
+  task:
+
+  - name: create andy user
+    tags: 
+
+
 - hosts: workstations
   become: true
   tasks:
