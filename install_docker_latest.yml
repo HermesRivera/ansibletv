@@ -1,0 +1,42 @@
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: docker stop portainer
+    tags: always
+    shell: docker stop portainer
+    args:
+      warn: no
+
+  - name: docker rm portainer
+    tags: always
+    shell: docker rm portainer
+    args: 
+      warn: no
+
+  - name: docker pull latest
+    tags: always
+    shell: docker pull portainer/portainer-ce:latest
+    args:
+      warn: no
+
+  - name: portainer install
+    tags: always
+    shell: docker run -d -p 8000:8000 -p 9443:9443 --name portainer \ --restart=always \ -v /var/run/docker.sock:/var/run/docker.sock \ -v portainer_data:/data \ portainer/portainer-ce:latest
+    args:
+      warn: no
+
+  - name: reboot server
+    tags: ubuntu
+    shell: sudo reboot
+    args:
+      warn: no
+
+     

@@ -1,0 +1,57 @@
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: installing docker
+    tags: always
+    apt:
+      name: docker.io
+      state: latest
+    when: ansible_distribution == "Ubuntu"      
+
+  - name: Started and Enable docker
+    tags: always
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: add hermes to docekr group
+    tags: always
+    shell: sudo usermod -aG docker hermes
+    args:
+      warn: no
+
+  - name: docker run hello world
+    tags: always
+    shell: docker run hello-world
+    args:
+      warn: no
+
+  - name: docker volume create portainer_data
+    tags: always
+    shell: docker volume create portainer_data
+    args:
+      warn: no
+
+  - name: portainer install
+    tags: always
+    shell: docker run -d -p 8000:8000 -p 9443:9443 --name portainer \ --restart=always \ -v /var/run/docker.sock:/var/run/docker.sock \ -v portainer_data:/data \ portainer/portainer-ce:2.9.3
+    args:
+      warn: no
+
+  - name: reboot server
+    tags: ubuntu
+    shell: sudo poweroff
+    args:
+      warn: no
+
+     
