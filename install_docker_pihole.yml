@@ -1,0 +1,24 @@
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install pihole
+    tags: always
+    shell: docker run -d     --name pihole     -p 53:53/tcp -p 53:53/udp     -p 80:80     -e TZ="Europe/London"     -v "${PIHOLE_BASE}/etc-pihole:/etc/pihole"     -v "${PIHOLE_BASE}/etc-dnsmasq.d:/etc/dnsmasq.d"     --dns=127.0.0.1 --dns=1.1.1.1     --restart=unless-stopped     --hostname pi.hole     -e VIRTUAL_HOST="pi.hole"     -e PROXY_LOCATION="pi.hole"     -e ServerIP="127.0.0.1"     pihole/pihole:latest
+    args:
+      warn: no
+
+  - name: reboot server
+    tags: ubuntu
+    shell: sudo reboot
+    args:
+      warn: no
+
+     
